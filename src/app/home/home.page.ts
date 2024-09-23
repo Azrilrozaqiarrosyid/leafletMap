@@ -17,7 +17,7 @@ export class HomePage {
 
   ionViewDidEnter() {
     // Inisialisasi peta dengan basemap default (OpenStreetMap)
-    this.map = L.map('mapId').setView([35.76943, -580081], 13);
+    this.map = L.map('mapId').setView([-7.770299599999986, 110.37790381342562], 15);
 
     // Basemap default OpenStreetMap
     this.currentLayer = L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
@@ -36,60 +36,47 @@ export class HomePage {
     });
 
     // Menambahkan marker di koordinat tertentu dengan custom icon
-    const marker = L.marker([35.76943, -580081], { icon: iconDefault }).addTo(this.map);
+    const marker = L.marker([-7.770299599999986, 110.37790381342562], { icon: iconDefault }).addTo(this.map);
 
     // Opsional: Menambahkan popup pada marker
-    marker.bindPopup('<b>Hello!</b><br>This is your marker.').openPopup();
+    marker.bindPopup('<b>Marker!</b><br>Ini penanda titik peta.').openPopup();
+
+    // Mendeklarasikan layer basemap di sini
+    const osm = L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
+      maxZoom: 19,
+      attribution: '© OpenStreetMap'
+    });
+
+    const osmHOT = L.tileLayer('https://{s}.tile.openstreetmap.fr/hot/{z}/{x}/{y}.png', {
+      maxZoom: 19,
+      attribution: '© OpenStreetMap contributors, Tiles style by Humanitarian OpenStreetMap Team hosted by OpenStreetMap France'
+    });
+
+    const stamen = L.tileLayer('https://stamen-tiles-{s}.a.ssl.fastly.net/toner/{z}/{x}/{y}.png', {
+      maxZoom: 19,
+    });
+
+    // Menambahkan dua basemap baru
+    const googleSatellite = L.tileLayer('https://mt1.google.com/vt/lyrs=s@176&r=0&x={x}&y={y}&z={z}', {
+      maxZoom: 20,
+      attribution: '© Google'
+    });
+
+    const esriSatellite = L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}', {
+      maxZoom: 20,
+      attribution: 'Tiles &copy; Esri'
+    });
+
+    // Membuat objek basemap
+    const baseMaps = {
+      "OpenStreetMap": osm,
+      "OpenStreetMap.HOT": osmHOT,
+      "Stamen Toner": stamen,
+      "Google Satellite": googleSatellite,
+      "Esri Satellite": esriSatellite,
+    };
+
+    // Menambahkan kontrol layer ke peta
+    L.control.layers(baseMaps).addTo(this.map);
   }
-
-  // Fungsi untuk mengubah basemap
-  changeBasemap(event: any) {
-    const selectedBasemap = event.detail.value;
-
-    // Hapus layer saat ini
-    this.map.removeLayer(this.currentLayer);
-
-    // Pilihan basemap berdasarkan input dari pengguna
-    switch (selectedBasemap) {
-      case 'osm':
-        this.currentLayer = L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
-          attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-        });
-        break;
-      case 'topo-vector':
-        this.currentLayer = L.tileLayer('https://{s}.tile.opentopomap.org/{z}/{x}/{y}.png', {
-          attribution: 'Map data: &copy; <a href="https://opentopomap.org">OpenTopoMap</a> contributors'
-        });
-        break;
-      case 'streets-vector':
-        this.currentLayer = L.tileLayer('https://{s}.tile.openstreetmap.de/{z}/{x}/{y}.png', {
-          attribution: '&copy; OpenStreetMap contributors'
-        });
-        break;
-      case 'satellite':
-        this.currentLayer = L.tileLayer('https://{s}.tile.opentopomap.org/{z}/{x}/{y}.png', {
-          attribution: '&copy; OpenStreetMap contributors'
-        });
-        break;
-      case 'dark-gray':
-        this.currentLayer = L.tileLayer('https://tiles.stadiamaps.com/tiles/alidade_smooth_dark/{z}/{x}/{y}{r}.png', {
-          attribution: '&copy; Stadia Maps, &copy; OpenMapTiles &copy; OpenStreetMap contributors'
-        });
-        break;
-      case 'oceans':
-        this.currentLayer = L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/Ocean/World_Ocean_Base/MapServer/tile/{z}/{y}/{x}', {
-          attribution: 'Tiles &copy; Esri &mdash; Source: GEBCO, NOAA, National Geographic, DeLorme, NAVTEQ, and other contributors'
-        });
-        break;
-      default:
-        this.currentLayer = L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
-          attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-        });
-        break;
-    }
-
-    // Menambahkan basemap baru ke peta
-    this.currentLayer.addTo(this.map);
-  }
-
 }
