@@ -17,7 +17,7 @@ export class HomePage {
 
   ionViewDidEnter() {
     // Inisialisasi peta dengan basemap default (OpenStreetMap)
-    this.map = L.map('mapId').setView([--7.798034049275098, 110.36525919664277], 15);
+    this.map = L.map('mapId').setView([-7.798034049275098, 110.36525919664277], 15);
 
     // Basemap default OpenStreetMap
     this.currentLayer = L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
