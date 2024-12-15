@@ -11,7 +11,7 @@ export class HomePage {
   map!: L.Map;
   currentLayer!: L.TileLayer;
 
-  constructor() { }
+  constructor() {}
 
   ngOnInit() {}
 
@@ -32,14 +32,98 @@ export class HomePage {
       iconSize: [25, 41],  // Ukuran icon
       iconAnchor: [12, 41], // Anchor icon
       popupAnchor: [1, -34], // Posisi popup terhadap icon
-      shadowSize: [41, 41] // Ukuran shadow
+      shadowSize: [41, 41]   // Ukuran shadow
     });
 
-    // Menambahkan marker di koordinat tertentu dengan custom icon
-    const marker = L.marker([-7.770299599999986, 110.37790381342562], { icon: iconDefault }).addTo(this.map);
+    // Data marker
+    const markerData = [
+      {
+        coords: [-7.789087196129326, 110.36730052822668],
+        name: 'Parkiran Abu Bakar Ali',
+        address: 'Jl. Abu Bakar Ali No.75, 001, Suryatmajan, Kec. Danurejan, Kota Yogyakarta, Daerah Istimewa Yogyakarta 55213',
+        status: 'TKP',
+        vehicleType: 'Mobil & Motor',
+        photoUrl: 'https://media.kompas.tv/library/image/content_article/article_img/20230814005132.jpg',
+        gmapsLink: 'https://www.google.com/maps/dir/?api=1&destination=-7.789087196129326, 110.36730052822668',
+      },
+      {
+        coords: [-7.786110341391642, 110.36665428673355],
+        name: 'Jalan Margo Utomo',
+        address: 'Yogyakarta City, Special Region of Yogyakarta',
+        status: 'Tepi jalan',
+        vehicleType: 'Motor',
+        photoUrl: 'https://wartakonstruksi.com/upload/01-2022/jalan-margo-utomo--30-14.jpeg',
+        gmapsLink: 'https://www.google.com/maps/dir/?api=1&destination=-7.786110341391642, 110.36665428673355',
+      },
+      {
+        coords: [-7.79639692868479, 110.36820633688082],
+        name: 'Jalan Ketandan',
+        address: 'Yogyakarta City, Special Region of Yogyakarta',
+        status: 'Tepi jalan',
+        vehicleType: 'Motor',
+        photoUrl: 'https://static.promediateknologi.id/crop/0x0:0x0/0x0/webp/photo/krjogja/site/2022/07/28/416025/informasi-minim-lokasi-parkir-ketandan-dioptimalkan-2207282.jpg',
+        gmapsLink: 'https://www.google.com/maps/dir/?api=1&destination=-7.79639692868479, 110.36820633688082',
+      },
+      {
+        coords: [-7.793214881161121, 110.36691828426821],
+        name: 'Parkir Bsement Malioboro Mall',
+        address: 'Mataram St No.31, Suryatmajan, Danurejan, Yogyakarta City, Special Region of Yogyakarta 55213',
+        status: 'Dikelola mall',
+        vehicleType: 'Mobil & Motor',
+        photoUrl: 'https://static.promediateknologi.id/crop/0x0:0x0/0x0/webp/photo/p2/18/2023/04/19/parkir_basement_malioboro_mall-3517869020.jpeg',
+        gmapsLink: 'https://www.google.com/maps/dir/?api=1&destination=-7.793214881161121, 110.36691828426821',
+      },
+      {
+        coords: [-7.795485856278799, 110.36704968150973],
+        name: 'Parkir Mobil Baleworo',
+        address: '6938+PVR, Suryatmajan, Danurejan, Yogyakarta City, Special Region of Yogyakarta 55213',
+        status: 'TKP',
+        vehicleType: 'Mobil & Motor',
+        photoUrl: 'https://jogjacagar.jogjaprov.go.id//assets/uploads/files/thumbs/thumb_f15d99d5b231d1498b79d412412efd5c.jpg',
+        gmapsLink: 'https://www.google.com/maps/dir/?api=1&destination=-7.793214881161121, 110.36691828426821',
+      },
+      {
+        coords: [-7.797048785657354, 110.36423927981194],
+        name: 'Parkir Beskalan',
+        address: 'Jl. Beskalan No.28, RW.08, Ngupasan, Kec. Gondomanan, Kota Yogyakarta, Daerah Istimewa Yogyakarta 55122',
+        status: 'Basement',
+        vehicleType: 'Mobil & Motor',
+        photoUrl: 'https://tekonsipil.sv.ugm.ac.id/wp-content/uploads/sites/938/2019/08/tkp-beskalan.jpg',
+        gmapsLink: 'https://www.google.com/maps/dir/?api=1&destination=-7.797048785657354, 110.36423927981194',
+      },
+      {
+        coords: [-7.801002995296668, 110.36346680384945],
+        name: 'Kantong Parkir Malioboro',
+        address: '59X7+CCJ, Jl. KH. Ahmad Dahlan, Notoprajan, Kec. Gondomanan, Kota Yogyakarta, Daerah Istimewa Yogyakarta',
+        status: 'TKP',
+        vehicleType: 'Mobil & Motor',
+        photoUrl: 'https://img.antaranews.com/cache/1200x800/2012/11/20121121juru-parkir-malioboro.jpg.webphttps://www.astra-daihatsu.id/_next/image?url=https%3A%2F%2Fdsoodysseusstprod.blob.core.windows.net%2Fstrapi-media%2Fassets%2Fsys_master_media_hbc_h52_8822265577502_parkir_20malioboro_20_1_580cd303b5.jpg&w=1920&q=75https://www.astra-daihatsu.id/_next/image?url=https%3A%2F%2Fdsoodysseusstprod.blob.core.windows.net%2Fstrapi-media%2Fassets%2Fsys_master_media_hbc_h52_8822265577502_parkir_20malioboro_20_1_580cd303b5.jpg&w=1920&q=75https://statik.tempo.co/data/2019/05/30/id_845605/845605_720.jpg',
+        gmapsLink: 'https://www.google.com/maps/dir/?api=1&destination=-7.801002995296668, 110.36346680384945',
+      },
+      {
+        coords: [-7.7988239327845665, 110.36661788786908],
+        name: 'Area Parkir Beringharjo',
+        address: 'Ps. Beringharjo, Jalan Pabringan, Taman Parkir TKP 2 Malioboro Selatan, Ngupasan, Kec. Gondomanan, Kota Yogyakarta, Daerah Istimewa Yogyakarta 55122',
+        status: 'TKP',
+        vehicleType: 'Mobil & Motor',
+        photoUrl: 'https://jogjacagar.jogjaprov.go.id//assets/uploads/files/thumbs/thumb_0e1e409206c71379dd4f8bd108137151.JPG',
+        gmapsLink: 'https://www.google.com/maps/dir/?api=1&destination=-7.7988239327845665, 110.36661788786908',
+      }
+      // Tambahkan data marker lainnya jika ada
+    ];
 
-    // Opsional: Menambahkan popup pada marker
-    marker.bindPopup('<b>Marker!</b><br>Ini penanda titik peta.').openPopup();
+    // Menambahkan marker dan popup
+    markerData.forEach(data => {
+      const marker = L.marker(data.coords as L.LatLngExpression, { icon: iconDefault })
+        .bindPopup(`
+          <b>${data.name}</b><br>
+          ${data.address}<br>
+          Status: ${data.status}<br>
+          Jenis Kendaraan: ${data.vehicleType}<br>
+          <a href="${data.gmapsLink}" target="_blank">Lihat di Google Maps</a>
+        `)
+        .addTo(this.map);
+    });
 
     // Mendeklarasikan layer basemap di sini
     const osm = L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
